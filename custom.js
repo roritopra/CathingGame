@@ -4,24 +4,43 @@ var elements = document.querySelector(".elements");
 var basketLeft = parseInt(window.getComputedStyle(basket).getPropertyValue("left"));
 var baskeBottom = parseInt(window.getComputedStyle(basket).getPropertyValue("bottom"));
 const scoreContainer = document.getElementById('score');
-const values = ["c", "h", "o", "n"];
+const formuleContainer = document.getElementById('compounds');
+const goalContainer = document.getElementById('goal');
+const amountContainer = document.getElementById('amount');
+const values = [100, 150, 200, 250];
 const compounds = [
-    {text: "H2O", value: "hho"},
-    {text: "C3H402", value: "ccchhhhoo"}
+    {text: "H2O", value: 100},
+    {text: "C3H402", value: 1500},
+    {text: "C2H5OH", value: 750}
 ];
 const colorClasses = {
-    c: "purple",
-    h: "purple",
-    n: "blue",
-    o: "blue"
+    H2O: "purple",
+    C3H402: "purple",
+    C2H5OH: "blue",
 }
 var currentCompound = 0;
-var currentValue = compounds[0].value;
+var currentAmount = 0;
 var score = 0;
 
 function updateDisplayedScore() {
     scoreContainer.innerText = '' + score;
 }
+
+function updateDisplayCompounds() {
+    formuleContainer.innerHTML = compounds[currentCompound].text;
+}
+
+function updateDisplayGoal() {
+    goalContainer.innerHTML = compounds[currentCompound].value;
+}
+
+function updateDisplaAmount() {
+    amountContainer.innerHTML = "" + currentAmount;
+}
+
+updateDisplayCompounds();
+updateDisplayGoal();
+updateDisplaAmount();
 
 function moveBasketLeft(){
     if (basketLeft > 0) {
@@ -57,8 +76,13 @@ function generateElements() {
     var elementLeft = Math.floor(Math.random() * game.clientWidth);
     var element = document.createElement('div');
     const value = values[Math.floor(Math.random() * values.length)];
-    element.innerText = value;
-    element.classList.add("element", colorClasses[value]);
+    const selectedCompound = compounds[Math.floor(Math.random() * compounds.length)].text;
+    element.innerHTML = `
+        <p>${value}ml</p>
+        <p>${selectedCompound}</p>
+    `;
+    element.style.setProperty('font-size', `${value/10}px`);
+    element.classList.add("element", colorClasses[selectedCompound]);
     elements.appendChild(element);
     var fallInterval = setInterval(fallDownElement, 20)
  
@@ -67,27 +91,27 @@ function generateElements() {
         if (elementBottom < baskeBottom + 50 && elementBottom > baskeBottom && elementLeft > basketLeft - 30 && elementLeft < basketLeft + 80){
             elements.removeChild(element);
             clearInterval(fallInterval);
-            const splitted = currentValue.split('');
-            const index = splitted.findIndex(v => v == value);
-            if(index > -1) {
-                splitted.splice(index, 1);
-                console.log(currentValue);
-                
-                //Termina la palabra
-                if(splitted.length === 0) {
-                    currentCompound++;
-                    score += 10;
-                    updateDisplayedScore();
 
-                    if(currentCompound === compounds.length) {
-                        //Ganaste
+            if(selectedCompound === compounds[currentCompound].text) {
+                currentAmount += value;
+    
+                if(currentAmount >= compounds[currentCompound].value) {
+                    currentAmount = 0;
+                    score += 10;
+
+                    if(currentCompound < compounds.length - 1) {
+                        currentCompound++;
+                        updateDisplayCompounds();
+                        updateDisplayGoal();
+                    } else {
+                        //Gano
                     }
-                    currentValue = compounds[currentCompound].value;
-                    console.log(currentValue);
-                } else {
-                    currentValue = splitted.join('');
                 }
-                
+
+                updateDisplaAmount();
+            } else {
+                score -= 10;
+                updateDisplayedScore();
             }
         }
 
