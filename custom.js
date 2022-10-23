@@ -70,6 +70,30 @@ function control(e){
     }
 }
 
+//contador de tiemp
+var timeoutHandle;
+function countdown(minutes, seconds) {
+    function tick() {
+        var counter = document.getElementById("timer");
+        counter.innerHTML =
+            minutes.toString() + ":" + (seconds < 10 ? "0" : "") + String(seconds);
+        seconds--;
+        if (seconds >= 0) {
+            timeoutHandle = setTimeout(tick, 1000);
+        } else {
+            if (minutes >= 1) {
+                
+                setTimeout(function () {
+                    countdown(minutes - 1, 59);
+                }, 1000);
+            }
+        }
+    }
+    tick();
+}
+countdown(5, 10);
+
+
 function generateElements() {
     const bottomLimit = 1500;
     var elementBottom = 1050;
@@ -85,6 +109,7 @@ function generateElements() {
     element.classList.add("element", colorClasses[selectedCompound]);
     elements.appendChild(element);
     var fallInterval = setInterval(fallDownElement, 25)
+    
  
     function fallDownElement(){
         //Jugador agarra elemento
