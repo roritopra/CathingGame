@@ -30,8 +30,8 @@ body{
 }
 
 .basket{
-    width: 120px;
-    height: 95px;
+    width: 100px;
+    height: 100px;
     position: absolute;
     bottom: 15px;
     left: calc(50% - 25px);
@@ -81,4 +81,13 @@ body{
 
 .info p{
     color: rgb(84, 84, 84);
+}
+
+#hidden{
+    position: absolute;
+    width: 1250px;
+    top: 5px;
+    border-radius: 30px;
+    align-items: center;
+    
 }

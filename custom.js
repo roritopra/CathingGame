@@ -9,7 +9,7 @@ const goalContainer = document.getElementById('goal');
 const amountContainer = document.getElementById('amount');
 const values = [100, 150, 200, 250];
 const compounds = [
-    {text: "H2O", value: 100},
+    {text: "H2O", value: 800},
     {text: "C3H402", value: 1500},
     {text: "C2H5OH", value: 750}
 ];
@@ -84,7 +84,7 @@ function generateElements() {
     element.style.setProperty('font-size', `${value/10}px`);
     element.classList.add("element", colorClasses[selectedCompound]);
     elements.appendChild(element);
-    var fallInterval = setInterval(fallDownElement, 20)
+    var fallInterval = setInterval(fallDownElement, 25)
  
     function fallDownElement(){
         //Jugador agarra elemento
@@ -97,14 +97,14 @@ function generateElements() {
     
                 if(currentAmount >= compounds[currentCompound].value) {
                     currentAmount = 0;
-                    score += 10;
+                    score += 20;
 
                     if(currentCompound < compounds.length - 1) {
                         currentCompound++;
                         updateDisplayCompounds();
                         updateDisplayGoal();
                     } else {
-                        //Gano
+                        console.log("ganaste")
                     }
                 }
 
@@ -126,7 +126,7 @@ function generateElements() {
     }
 
     element.style.bottom = elementBottom + 'px';
-    setTimeout(generateElements, 500)
+    setTimeout(generateElements, 700)
 }
 generateElements();
 
