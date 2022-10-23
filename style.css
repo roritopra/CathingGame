@@ -65,6 +65,10 @@ body{
     background-color: rgb(85, 154, 201);
 }
 
+.orange{
+    background-color: rgb(255, 174, 0);
+}
+
 .info{
     width: 189px;
     background-color: rgba(255, 255, 255, 0.452);

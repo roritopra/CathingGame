@@ -15,7 +15,7 @@ const compounds = [
 ];
 const colorClasses = {
     H2O: "purple",
-    C3H402: "purple",
+    C3H402: "orange",
     C2H5OH: "blue",
 }
 var currentCompound = 0;
